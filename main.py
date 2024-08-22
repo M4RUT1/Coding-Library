@@ -1,14 +1,34 @@
-meme_dict = {
-            "CRINGE": "Sesuatu yang sangat aneh atau memalukan",
-            "LOL": "Tanggapan umum terhadap sesuatu yang lucu",
-            "AGGRO": 'untuk menjadi agresif/marah',
-            "SHEESH": 'sedikit ketidaksetujuan',
-            "ROFL": 'tanggapan terhadap lelucon'
-            }
+import discord
+from discord.ext import commands
+import random
 
-for i in range(5):
-  word = input("Ketik kata yang tidak Kamu mengerti (gunakan huruf kapital semua!): ")
-  if word in meme_dict.keys():
-      print(meme_dict[word])
-  else:
-     print("Word not found")
+intents = discord.Intents.default()
+intents.message_content = True
+
+bot = commands.Bot(command_prefix='$', intents=intents)
+
+@bot.event
+async def on_ready():
+    print(f'We have logged in as {bot.user}')
+
+@bot.command()
+async def hello(ctx):
+    await ctx.send(f'Hi! I am a bot {bot.user}!')
+
+@bot.command()
+async def heh(ctx, count_heh = 5):
+    await ctx.send("he" * count_heh)
+
+@bot.command()
+async def guess(ctx):
+    await ctx.send('Guess a number between 1 and 10')
+
+@bot.command()
+async def answer(ctx, n):
+    if n == random.randint(1, 10):
+        await ctx.send('Congrats, You guessed the right number!')
+    else:
+        await ctx.send('Skill Issue')
+
+
+bot.run("Secret Formula")
